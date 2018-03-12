@@ -1,0 +1,67 @@
+patricioibarra=# create database ejercicio_4
+patricioibarra-# ;
+CREATE DATABASE
+patricioibarra-# \c ejercicio_4
+psql (9.6.4, server 10.3)
+WARNING: psql major version 9.6, server major version 10.
+         Some psql features might not work.
+You are now connected to database "ejercicio_4" as user "patricioibarra".
+ejercicio_4=# create table tags(id integer primary key);
+CREATE TABLE
+ejercicio_4=# \d tags
+     Table "public.tags"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "tags_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_4=# create table pelicula(id integer primary key);
+CREATE TABLE
+ejercicio_4=# \d pelicula
+   Table "public.pelicula"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "pelicula_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_4=# create table categoria(id integer primary key);
+CREATE TABLE
+ejercicio_4=# \d categoria
+   Table "public.categoria"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "categoria_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_4=# create table peliculaCategoria(id integer primary key, pelicula_id integer references pelicula(id), categoria_id integer references categoria(id));
+CREATE TABLE
+ejercicio_4=# \d peliculacategoria
+  Table "public.peliculacategoria"
+    Column    |  Type   | Modifiers
+--------------+---------+-----------
+ id           | integer | not null
+ pelicula_id  | integer |
+ categoria_id | integer |
+Indexes:
+    "peliculacategoria_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "peliculacategoria_categoria_id_fkey" FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+    "peliculacategoria_pelicula_id_fkey" FOREIGN KEY (pelicula_id) REFERENCES pelicula(id)
+
+ejercicio_4=# create table peliculaTags(id integer primary key, pelicula_id integer references pelicula(id), tag_id integer references tags(id));
+CREATE TABLE
+ejercicio_4=# \d peliculaTags
+    Table "public.peliculatags"
+   Column    |  Type   | Modifiers
+-------------+---------+-----------
+ id          | integer | not null
+ pelicula_id | integer |
+ tag_id      | integer |
+Indexes:
+    "peliculatags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "peliculatags_pelicula_id_fkey" FOREIGN KEY (pelicula_id) REFERENCES pelicula(id)
+    "peliculatags_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES tags(id)

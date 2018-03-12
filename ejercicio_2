@@ -1,0 +1,67 @@
+patricioibarra=# create database ejercicio_2;
+CREATE DATABASE
+patricioibarra=# \c ejercicio_2
+psql (9.6.4, server 10.3)
+WARNING: psql major version 9.6, server major version 10.
+         Some psql features might not work.
+You are now connected to database "ejercicio_2" as user "patricioibarra".
+ejercicio_2=# create table profesor(id integer primary key);
+CREATE TABLE
+ejercicio_2=# \d profesor
+   Table "public.profesor"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "profesor_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_2=# create table prueba(id integer primary key, profesor_id integer references profesor(id));
+CREATE TABLE
+ejercicio_2=# \d prueba
+       Table "public.prueba"
+   Column    |  Type   | Modifiers
+-------------+---------+-----------
+ id          | integer | not null
+ profesor_id | integer |
+Indexes:
+    "prueba_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "prueba_profesor_id_fkey" FOREIGN KEY (profesor_id) REFERENCES profesor(id)
+
+ejercicio_2=# create table curso(id integer primary key);
+CREATE TABLE
+ejercicio_2=# \d curso
+     Table "public.curso"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "curso_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_2=# create table alumno(id integer primary key, curso_id integer references curso(id));
+CREATE TABLE
+ejercicio_2=# \d alumno
+     Table "public.alumno"
+  Column  |  Type   | Modifiers
+----------+---------+-----------
+ id       | integer | not null
+ curso_id | integer |
+Indexes:
+    "alumno_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "alumno_curso_id_fkey" FOREIGN KEY (curso_id) REFERENCES curso(id)
+
+ejercicio_2=# create table Alumno_Prueba(id integer primary key, alumno_id integer references alumno(id), prueba_id integer references prueba(id));
+CREATE TABLE
+ejercicio_2=# \d alumno_prueba
+  Table "public.alumno_prueba"
+  Column   |  Type   | Modifiers
+-----------+---------+-----------
+ id        | integer | not null
+ alumno_id | integer |
+ prueba_id | integer |
+Indexes:
+    "alumno_prueba_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "alumno_prueba_alumno_id_fkey" FOREIGN KEY (alumno_id) REFERENCES alumno(id)
+    "alumno_prueba_prueba_id_fkey" FOREIGN KEY (prueba_id) REFERENCES prueba(id)

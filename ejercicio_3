@@ -1,0 +1,49 @@
+patricioibarra=# create database ejercicio_3;
+CREATE DATABASE
+patricioibarra=# create table partido(id integer primary key);
+CREATE TABLE
+patricioibarra=# \d partido
+    Table "public.partido"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "partido_pkey" PRIMARY KEY, btree (id)
+
+patricioibarra=# create table mesa(id integer primary key);
+CREATE TABLE
+patricioibarra=# \d mesa
+     Table "public.mesa"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "mesa_pkey" PRIMARY KEY, btree (id)
+
+patricioibarra=# create table candidato(id integer primary key, partido_id integer references partido(id));
+CREATE TABLE
+patricioibarra=# \d candidato
+     Table "public.candidato"
+   Column   |  Type   | Modifiers
+------------+---------+-----------
+ id         | integer | not null
+ partido_id | integer |
+Indexes:
+    "candidato_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "candidato_partido_id_fkey" FOREIGN KEY (partido_id) REFERENCES partido(id)
+
+patricioibarra=# create table votos(id integer primary key, candidato_id integer references candidato(id), mesa_id integer references mesa(id));
+CREATE TABLE
+patricioibarra=# \d votos
+        Table "public.votos"
+    Column    |  Type   | Modifiers
+--------------+---------+-----------
+ id           | integer | not null
+ candidato_id | integer |
+ mesa_id      | integer |
+Indexes:
+    "votos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "votos_candidato_id_fkey" FOREIGN KEY (candidato_id) REFERENCES candidato(id)
+    "votos_mesa_id_fkey" FOREIGN KEY (mesa_id) REFERENCES mesa(id)

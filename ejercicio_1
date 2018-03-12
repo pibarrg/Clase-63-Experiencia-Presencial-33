@@ -1,0 +1,41 @@
+patricioibarra=# create database ejercicio_1;
+CREATE DATABASE
+patricioibarra=# \c ejercicio_1;
+psql (9.6.4, server 10.3)
+WARNING: psql major version 9.6, server major version 10.
+         Some psql features might not work.
+You are now connected to database "ejercicio_1" as user "patricioibarra".
+ejercicio_1=# create table Departamento(id integer primary key);
+CREATE TABLE
+ejercicio_1=# \d
+               List of relations
+ Schema |     Name     | Type  |     Owner
+--------+--------------+-------+----------------
+ public | departamento | table | patricioibarra
+(1 row)
+
+ejercicio_1=# create table trabajador(id integer primary key, departamento_id integer references departamento(id));
+CREATE TABLE
+ejercicio_1=# \d trabajador
+       Table "public.trabajador"
+     Column      |  Type   | Modifiers
+-----------------+---------+-----------
+ id              | integer | not null
+ departamento_id | integer |
+Indexes:
+    "trabajador_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "trabajador_departamento_id_fkey" FOREIGN KEY (departamento_id) REFERENCES departamento(id)
+
+ejercicio_1=# create table liquidaciones(id integer primary key, trabajador_id integer references trabajador(id));
+CREATE TABLE
+ejercicio_1=# \d liquidaciones
+    Table "public.liquidaciones"
+    Column     |  Type   | Modifiers
+---------------+---------+-----------
+ id            | integer | not null
+ trabajador_id | integer |
+Indexes:
+    "liquidaciones_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "liquidaciones_trabajador_id_fkey" FOREIGN KEY (trabajador_id) REFERENCES trabajador(id)

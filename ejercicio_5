@@ -1,0 +1,67 @@
+patricioibarra=# create database ejercicio_5;
+CREATE DATABASE
+patricioibarra=# \c ejercicio_5
+psql (9.6.4, server 10.3)
+WARNING: psql major version 9.6, server major version 10.
+         Some psql features might not work.
+You are now connected to database "ejercicio_5" as user "patricioibarra".
+ejercicio_5=# create table bodega(id integer primary key);
+CREATE TABLE
+ejercicio_5=# \d bodega
+    Table "public.bodega"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "bodega_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_5=# create table cliente(id integer primary key);
+CREATE TABLE
+ejercicio_5=# \d cliente
+    Table "public.cliente"
+ Column |  Type   | Modifiers
+--------+---------+-----------
+ id     | integer | not null
+Indexes:
+    "cliente_pkey" PRIMARY KEY, btree (id)
+
+ejercicio_5=# create table productos(id integer primary key, bodega_id integer references bodega(id));
+CREATE TABLE
+ejercicio_5=# \d productos
+    Table "public.productos"
+  Column   |  Type   | Modifiers
+-----------+---------+-----------
+ id        | integer | not null
+ bodega_id | integer |
+Indexes:
+    "productos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "productos_bodega_id_fkey" FOREIGN KEY (bodega_id) REFERENCES bodega(id)
+
+ejercicio_5=# create table factura(id integer primary key, cliente_id integer references cliente(id));
+CREATE TABLE
+ejercicio_5=# \d factura
+      Table "public.factura"
+   Column   |  Type   | Modifiers
+------------+---------+-----------
+ id         | integer | not null
+ cliente_id | integer |
+Indexes:
+    "factura_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "factura_cliente_id_fkey" FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+
+ejercicio_5=# create table facturaProductos(id integer primary key, factura_id integer references factura(id), producto_id integer references productos(id));
+CREATE TABLE
+ejercicio_5=# \d facturaProductos
+  Table "public.facturaproductos"
+   Column    |  Type   | Modifiers
+-------------+---------+-----------
+ id          | integer | not null
+ factura_id  | integer |
+ producto_id | integer |
+Indexes:
+    "facturaproductos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "facturaproductos_factura_id_fkey" FOREIGN KEY (factura_id) REFERENCES factura(id)
+    "facturaproductos_producto_id_fkey" FOREIGN KEY (producto_id) REFERENCES productos(id)
